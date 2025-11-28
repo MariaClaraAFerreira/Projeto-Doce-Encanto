@@ -1,5 +1,5 @@
 "use client";
-
+ 
 import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
 import {
@@ -10,7 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-
+ 
 export default function Carrosel() {
   const plugin = React.useRef(
     Autoplay({
@@ -18,7 +18,7 @@ export default function Carrosel() {
       stopOnInteraction: true,
     })
   );
-
+ 
   const slides = [
     {
       src: "/bolo3.jpeg",
@@ -36,23 +36,23 @@ export default function Carrosel() {
       description: "Sabores únicos e especiais",
     },
   ];
-
+ 
   return (
     <div className="w-full max-w-7xl mx-auto">
       <Carousel
         opts={{ align: "center", loop: true }}
         plugins={[plugin.current]}
-        className="w-full rounded-xl overflow-hidden"
+        className="w-[800px] h-[300px] rounded-xl flex items-center justify-center ml-55 overflow-hidden"
       >
         <CarouselContent>
           {slides.map((slide, index) => (
             <CarouselItem key={index} className="basis-full">
-              <div className="relative w-full h-[10vh] sm:h-[60vh] md:h-[70vh]">
+              <div className="relative w-[800px] flex justify-center items-center h-[10vh] sm:h-[60vh] md:h-[50vh]">
                 <Image
                   src={slide.src}
                   alt={slide.title}
                   fill
-                  className="object-button  rounded-xl brightness-110"
+                  className="object-center rounded-xl brightness-110 bg-red-500"
                 />
                 {/* Texto sobreposto no canto inferior esquerdo */}
                 <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12 text-left">
@@ -67,7 +67,7 @@ export default function Carrosel() {
             </CarouselItem>
           ))}
         </CarouselContent>
-
+ 
         {/* Navegação visível apenas no desktop */}
         <CarouselPrevious className="hidden sm:flex" />
         <CarouselNext className="hidden sm:flex" />
