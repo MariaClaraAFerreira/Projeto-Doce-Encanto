@@ -1,0 +1,21 @@
+{
+  "name": "Meu App PWA Next.js",
+  "short_name": "AppPWA",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "description": "Exemplo de PWA com Next.js App Router",
+  "icons": [
+    {
+      "src": "/senac-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/senac-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

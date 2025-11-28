@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// Clientes
+
+model Cliente {
+  id             Int       @id @default(autoincrement())
+  nome           String
+  email          String    @unique
+  senha          String
+  telefone       String?
+  endereco       String?
+  criadoEm       DateTime  @default(now())
+  pedidos        Pedido[]
+  nivel     String   @default("usuario")
+}
+
+
+// Produtos
+
+model Produto {
+  id             Int       @id @default(autoincrement())
+  nome           String
+  descricao      String?
+  preco          Float
+  
+  imagemUrl      String?
+  criadoEm       DateTime  @default(now())
+  itensPedido    ItemPedido[]
+}
+
+
+// Pedidos
+
+model Pedido {
+  id             Int           @id @default(autoincrement())
+  clienteId      Int
+  cliente        Cliente       @relation(fields: [clienteId], references: [id])
+  dataPedido     DateTime      @default(now())
+  status         String        @default("pendente")
+  valorTotal     Float
+  itens          ItemPedido[]
+
+  // ENDEREÇO DO PEDIDO
+  cep            String
+  rua            String
+  bairro         String
+  cidade         String
+  uf             String
+}
+
+
+
+// Itens do Pedido
+
+model ItemPedido {
+  id             Int       @id @default(autoincrement())
+  pedidoId       Int
+  produtoId      Int
+  quantidade     Int
+  precoUnitario  Float
+
+  pedido         Pedido    @relation(fields: [pedidoId], references: [id])
+  produto        Produto   @relation(fields: [produtoId], references: [id])
+}
