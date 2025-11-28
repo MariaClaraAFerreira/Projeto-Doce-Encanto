@@ -1,8 +1,11 @@
 {
+  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/api/auth/me/route": "app/api/auth/me/route.js",
+  "/api/auth/logout/route": "app/api/auth/logout/route.js",
+  "/api/auth/login/route": "app/api/auth/login/route.js",
   "/api/pedidos/route": "app/api/pedidos/route.js",
-  "/api/produtos/route": "app/api/produtos/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
-  "/admin/pedidos/page": "app/admin/pedidos/page.js",
-  "/monte-seu-bolo/page": "app/monte-seu-bolo/page.js"
+  "/login/page": "app/login/page.js",
+  "/checkout/page": "app/checkout/page.js"
 }
