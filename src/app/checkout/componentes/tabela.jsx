@@ -3,103 +3,117 @@
 import React, { useState, useEffect } from "react";
 import { useCart } from "@/app/context/CartContext";
 import { useRouter } from "next/navigation";
-import { showOrderSentToast } from "./SendOrderToast"; // ⬅ TOAST AQUI
+import { showOrderSentToast } from "./SendOrderToast";
 
 export default function FinalizarPedido() {
-  const { cart, total, clearCart } = useCart();
   const router = useRouter();
+  const { cart, total, clearCart } = useCart();
 
+  // Pagamento
   const [formaPagamento, setFormaPagamento] = useState("pix");
 
   // Endereço
-  const [cep, setCep] = useState("");
-  const [rua, setRua] = useState("");
-  const [bairro, setBairro] = useState("");
-  const [cidade, setCidade] = useState("");
-  const [uf, setUf] = useState("");
+  const [endereco, setEndereco] = useState({
+    cep: "",
+    rua: "",
+    bairro: "",
+    cidade: "",
+    uf: "",
+  });
 
   // Pedido personalizado
   const [pedidoPersonalizado, setPedidoPersonalizado] = useState(null);
 
+  // Carregar pedido personalizado
   useEffect(() => {
     const data = localStorage.getItem("pedido-personalizado");
-    if (data) {
-      setPedidoPersonalizado(JSON.parse(data));
-    }
+    if (data) setPedidoPersonalizado(JSON.parse(data));
   }, []);
 
-  // CEP com máscara + busca automática
-  const handleCep = (e) => {
-    let value = e.target.value.replace(/\D/g, "");
-    if (value.length > 8) value = value.substring(0, 8);
+  // Atualização de campos de endereço
+  const updateEndereco = (campo, valor) => {
+    setEndereco((prev) => ({
+      ...prev,
+      [campo]: valor,
+    }));
+  };
+
+  // ----------------------------------------------------------
+  // CEP + Busca automática
+  // ----------------------------------------------------------
+  const handleCepChange = (e) => {
+    let value = e.target.value.replace(/\D/g, "").slice(0, 8);
     value = value.replace(/(\d{5})(\d)/, "$1-$2");
 
-    setCep(value);
+    updateEndereco("cep", value);
+
     if (value.length === 9) buscarCEP(value);
   };
 
-  const buscarCEP = async (cepFormatado) => {
-    const cepLimpo = cepFormatado.replace(/\D/g, "");
+  const buscarCEP = async (cep) => {
+    const cepLimpo = cep.replace(/\D/g, "");
     try {
       const res = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
       const data = await res.json();
 
-      if (data.erro) {
-        alert("CEP não encontrado!");
-        return;
-      }
+      if (data.erro) return alert("CEP não encontrado!");
 
-      setRua(data.logradouro || "");
-      setBairro(data.bairro || "");
-      setCidade(data.localidade || "");
-      setUf(data.uf || "");
+      updateEndereco("rua", data.logradouro || "");
+      updateEndereco("bairro", data.bairro || "");
+      updateEndereco("cidade", data.localidade || "");
+      updateEndereco("uf", data.uf || "");
     } catch {
       alert("Erro ao buscar CEP!");
     }
   };
 
-  // ============================================
-  // WHATSAPP – Envia a mensagem automaticamente
-  // ============================================
-  const enviarWhatsApp = (pedidoId, pedidoPayload) => {
-    const numeroConfeiteira = "5541999999999"; // ALTERAR AQUI
+  // ----------------------------------------------------------
+  // Enviar WhatsApp automaticamente
+  // ----------------------------------------------------------
+  const enviarWhatsApp = (pedidoId, payload) => {
+    const numero = "5541999999999"; // alterar
 
-    let mensagem = `📦 *NOVO PEDIDO REALIZADO*\n\n`;
-    mensagem += `🧾 *ID do Pedido:* ${pedidoId}\n`;
-    mensagem += `💰 *Total:* R$ ${pedidoPayload.valorTotal.toFixed(2)}\n`;
-    mensagem += `💳 *Pagamento:* ${
+    let msg = `📦 *NOVO PEDIDO*\n\n`;
+    msg += `🧾 *ID:* ${pedidoId}\n`;
+    msg += `💰 *Total:* R$ ${payload.valorTotal.toFixed(2)}\n`;
+    msg += `💳 *Pagamento:* ${
       formaPagamento === "pix" ? "Pix" : "Pagar na Entrega"
     }\n\n`;
 
-    mensagem += `📍 *Endereço:*\n`;
-    mensagem += `${rua}, ${bairro}\n${cidade} - ${uf}\nCEP: ${cep}\n\n`;
+    msg += `📍 *Endereço:*\n${endereco.rua}, ${endereco.bairro}\n`;
+    msg += `${endereco.cidade} - ${endereco.uf}\n`;
+    msg += `CEP: ${endereco.cep}\n\n`;
 
-    mensagem += `🍰 *Itens:* \n`;
+    msg += `🍰 *Itens:* \n`;
 
-    if (pedidoPersonalizado) {
-      mensagem += `• Sabor: ${pedidoPersonalizado.itens[0].produtoId}\n`;
-      mensagem += `• Recheio: ${pedidoPersonalizado.itens[1].produtoId}\n`;
-      mensagem += `• Cobertura: ${pedidoPersonalizado.itens[2].produtoId}\n`;
+    if (pedidoPersonalizado?.itens?.length >= 3) {
+      msg += `• Sabor: ${pedidoPersonalizado.itens?.[0]?.produtoId}\n`;
+      msg += `• Recheio: ${pedidoPersonalizado.itens?.[1]?.produtoId}\n`;
+      msg += `• Cobertura: ${pedidoPersonalizado.itens?.[2]?.produtoId}\n`;
     } else {
       cart.forEach((item) => {
-        mensagem += `• ${item.quantity}x ${item.name} — R$ ${(
+        msg += `• ${item.quantity}x ${item.name} — R$ ${(
           item.price * item.quantity
         ).toFixed(2)}\n`;
       });
     }
 
-    const url = `https://wa.me/${numeroConfeiteira}?text=${encodeURIComponent(
-      mensagem
-    )}`;
-
-    window.open(url, "_blank");
+    window.open(
+      `https://wa.me/${numero}?text=${encodeURIComponent(msg)}`,
+      "_blank"
+    );
   };
 
-  // ============================================
-  // FINALIZAR PEDIDO (backend + toast + WhatsApp)
-  // ============================================
+  // ----------------------------------------------------------
+  // Finalizar Pedido + backend + toast + WhatsApp
+  // ----------------------------------------------------------
   const finalizarPedido = async () => {
-    const itensFinal =
+    const { cep, rua, bairro, cidade, uf } = endereco;
+
+    if (!cep || !rua || !bairro || !cidade || !uf)
+      return alert("Preencha o endereço completo!");
+
+    const itens =
       pedidoPersonalizado?.itens?.length > 0
         ? pedidoPersonalizado.itens
         : cart.map((item) => ({
@@ -108,67 +122,79 @@ export default function FinalizarPedido() {
             precoUnitario: item.price,
           }));
 
-    const totalFinal = pedidoPersonalizado?.valorTotal ?? total;
+    if (itens.length === 0) return alert("Carrinho vazio!");
 
-    if (itensFinal.length === 0) {
-      alert("Carrinho vazio!");
-      return;
-    }
+    const valorTotal = pedidoPersonalizado?.valorTotal ?? total;
 
-    if (!cep || !rua || !bairro || !cidade || !uf) {
-      alert("Preencha o endereço completo!");
-      return;
-    }
-
-    const pedidoPayload = {
+    const payload = {
       clienteId: 1,
-      valorTotal: totalFinal,
+      valorTotal,
       status: "pendente",
-      itens: itensFinal,
-      cep,
-      rua,
-      bairro,
-      cidade,
-      uf,
+      itens,
+      ...endereco,
     };
 
     try {
-      const response = await fetch("/api/pedidos", {
+      const res = await fetch("/api/pedidos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(pedidoPayload),
+        body: JSON.stringify(payload),
       });
 
-      if (!response.ok) {
-        console.error(await response.text());
-        alert("Erro ao criar pedido!");
-        return;
+      if (!res.ok) {
+        console.error(await res.text());
+        return alert("Erro ao criar pedido!");
       }
 
-      const pedidoCriado = await response.json();
+      const pedido = await res.json();
 
-      // 📢 TOAST AQUI — exatamente no momento certo
       showOrderSentToast("Seu pedido foi enviado para a confeiteira! 🎀");
+      enviarWhatsApp(pedido.id, payload);
 
-      // 📩 WhatsApp automático
-      enviarWhatsApp(pedidoCriado.id, pedidoPayload);
-
-      // Limpar carrinho
       clearCart();
       localStorage.removeItem("pedido-personalizado");
 
-      // Redirecionar
-      router.push(`/pedido-confirmado?id=${pedidoCriado.id}`);
-    } catch (error) {
-      console.error(error);
-      alert("Erro inesperado ao finalizar o pedido.");
+      router.push(`/pedido-confirmado?id=${pedido.id}`);
+    } catch (e) {
+      console.error(e);
+      alert("Erro inesperado.");
     }
   };
 
-  // ============================================
-  // JSX
-  // ============================================
+  // ----------------------------------------------------------
+  // Render: Resumo do Pedido
+  // ----------------------------------------------------------
+  const renderResumo = () => {
+    if (pedidoPersonalizado?.itens?.length >= 3) {
+      return (
+        <ul className="space-y-1 mb-3">
+          <li>Sabor: {pedidoPersonalizado.itens?.[0]?.produtoId}</li>
+          <li>Recheio: {pedidoPersonalizado.itens?.[1]?.produtoId}</li>
+          <li>Cobertura: {pedidoPersonalizado.itens?.[2]?.produtoId}</li>
+        </ul>
+      );
+    }
 
+    if (cart.length === 0)
+      return <p className="text-gray-500">Seu carrinho está vazio.</p>;
+
+    return (
+      <ul className="space-y-1 mb-3">
+        {cart.map((item) => (
+          <li key={item.id} className="flex justify-between">
+            <span>
+              {item.name} x {item.quantity}
+            </span>
+            <span>R$ {(item.price * item.quantity).toFixed(2)}</span>
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  // ----------------------------------------------------------
+  // JSX
+  // ----------------------------------------------------------
   return (
     <div className="min-h-screen flex justify-center items-center py-10">
       <div className="shadow-lg rounded-2xl bg-blue-50 max-w-max p-8">
@@ -183,43 +209,30 @@ export default function FinalizarPedido() {
           <input
             type="text"
             placeholder="CEP"
-            value={cep}
-            onChange={handleCep}
+            value={endereco.cep}
             maxLength={9}
-            className="w-full border border-gray-300 rounded-lg p-2"
+            onChange={handleCepChange}
+            className="w-full border p-2 rounded-lg"
           />
 
-          <input
-            type="text"
-            placeholder="Rua"
-            value={rua}
-            onChange={(e) => setRua(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg p-2"
-          />
-
-          <input
-            type="text"
-            placeholder="Bairro"
-            value={bairro}
-            onChange={(e) => setBairro(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg p-2"
-          />
-
-          <input
-            type="text"
-            placeholder="Cidade"
-            value={cidade}
-            onChange={(e) => setCidade(e.target.value)}
-            className="w-full border border-gray-300 rounded-lg p-2"
-          />
+          {["rua", "bairro", "cidade"].map((field) => (
+            <input
+              key={field}
+              type="text"
+              placeholder={field[0].toUpperCase() + field.slice(1)}
+              value={endereco[field]}
+              onChange={(e) => updateEndereco(field, e.target.value)}
+              className="w-full border p-2 rounded-lg"
+            />
+          ))}
 
           <input
             type="text"
             placeholder="UF"
-            value={uf}
             maxLength={2}
-            onChange={(e) => setUf(e.target.value.toUpperCase())}
-            className="w-full border border-gray-300 rounded-lg p-2"
+            value={endereco.uf}
+            onChange={(e) => updateEndereco("uf", e.target.value.toUpperCase())}
+            className="w-full border p-2 rounded-lg"
           />
         </div>
 
@@ -227,52 +240,27 @@ export default function FinalizarPedido() {
         <div className="mb-6">
           <h2 className="font-semibold text-lg mb-2">Forma de Pagamento</h2>
           <div className="flex gap-6">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="pagamento"
-                checked={formaPagamento === "pix"}
-                onChange={() => setFormaPagamento("pix")}
-              />
-              Pix
-            </label>
-
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="pagamento"
-                checked={formaPagamento === "entrega"}
-                onChange={() => setFormaPagamento("entrega")}
-              />
-              Pagar na Entrega
-            </label>
+            {[
+              { label: "Pix", value: "pix" },
+              { label: "Pagar na Entrega", value: "entrega" },
+            ].map((opt) => (
+              <label key={opt.value} className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  checked={formaPagamento === opt.value}
+                  onChange={() => setFormaPagamento(opt.value)}
+                />
+                {opt.label}
+              </label>
+            ))}
           </div>
         </div>
 
         {/* Resumo */}
-        <div className="border-t border-gray-200 pt-4">
+        <div className="border-t pt-4">
           <h2 className="font-semibold text-lg mb-2">Resumo do Pedido</h2>
 
-          {pedidoPersonalizado ? (
-            <ul className="space-y-1 mb-3">
-              <li>Sabor: {pedidoPersonalizado.itens[0].produtoId}</li>
-              <li>Recheio: {pedidoPersonalizado.itens[1].produtoId}</li>
-              <li>Cobertura: {pedidoPersonalizado.itens[2].produtoId}</li>
-            </ul>
-          ) : cart.length === 0 ? (
-            <p className="text-gray-500">Seu carrinho está vazio.</p>
-          ) : (
-            <ul className="space-y-1 mb-3">
-              {cart.map((item) => (
-                <li key={item.id} className="flex justify-between">
-                  <span>
-                    {item.name} x {item.quantity}
-                  </span>
-                  <span>R$ {(item.price * item.quantity).toFixed(2)}</span>
-                </li>
-              ))}
-            </ul>
-          )}
+          {renderResumo()}
 
           <div className="flex justify-between font-semibold text-lg">
             <span>Total:</span>
@@ -284,7 +272,7 @@ export default function FinalizarPedido() {
 
         <button
           onClick={finalizarPedido}
-          className="mt-6 w-full bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-lg font-semibold transition duration-200"
+          className="mt-6 w-full bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-lg font-semibold transition"
         >
           Confirmar Pedido
         </button>
