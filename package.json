@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "postinstall": "npx prisma migrate deploy && npx prisma generate",
+    "prebuild": "npx prisma generate",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
