@@ -13,15 +13,14 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
-  Sparkles,
+  AlertCircle,
+  CheckCircle,
   Mail,
   Lock,
   User,
   UserPlus,
-  AlertCircle,
-  CheckCircle,
+  Sparkles,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
@@ -40,7 +39,7 @@ export default function CustomRegister() {
       ...prev,
       [field]: value,
     }));
-    // Limpa o erro do campo quando o usuário começa a digitar
+
     if (errors[field]) {
       setErrors((prev) => ({
         ...prev,
@@ -81,15 +80,12 @@ export default function CustomRegister() {
   };
 
   const router = useRouter();
-
   const { register } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     setIsLoading(true);
 
@@ -119,7 +115,6 @@ export default function CustomRegister() {
     }
   };
 
-  // Indicador visual da força da senha
   const getPasswordStrength = () => {
     const password = formData.senha;
     if (!password) return null;
@@ -135,12 +130,10 @@ export default function CustomRegister() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-linear-to-br from-pink-100 via-purple-100 to-indigo-100">
-      {/* Elementos decorativos de fundo */}
       <div className="absolute top-20 left-20 w-64 h-64 bg-pink-300 rounded-full opacity-20 blur-3xl animate-pulse"></div>
       <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-300 rounded-full opacity-20 blur-3xl animate-pulse"></div>
 
       <div className="w-full max-w-md relative z-10">
-        {/* Logo e Título */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-linear-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-bounce">
             <Sparkles className="w-8 h-8 text-white" />
@@ -151,7 +144,6 @@ export default function CustomRegister() {
           <p className="text-gray-600 mt-2">Crie sua conta e comece agora!</p>
         </div>
 
-        {/* Card de Registro */}
         <Card className="shadow-2xl border-0 bg-white/90 backdrop-blur-lg">
           <CardHeader className="space-y-1 pb-4">
             <CardTitle className="text-2xl font-bold text-center text-gray-800">
@@ -163,58 +155,36 @@ export default function CustomRegister() {
           </CardHeader>
 
           <CardContent>
-            {/* Autenticação com o Google */}
-            {/* <Button
-              type="button"
-              className="w-full mb-4 bg-white text-gray-700 font-medium border border-gray-300 hover:bg-gray-50 transition-colors flex items-center justify-center gap-3 shadow-sm"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 533.5 544.3"
-                className="w-5 h-5"
-              >
-                <path
-                  fill="#4285f4"
-                  d="M533.5 278.4c0-17.4-1.4-34-4.1-50.2H272v95h146.9c-6.3 33.8-25 62.4-53.3 81.5v67h85.9c50.4-46.5 81-114.8 81-193.3z"
-                />
-                <path
-                  fill="#34a853"
-                  d="M272 544.3c71.6 0 131.6-23.7 175.5-63.6l-85.9-67c-23.9 16.1-54.5 25.5-89.6 25.5-68.9 0-127.3-46.5-148.2-109.1H35.9v68.4C79.8 480.7 169.4 544.3 272 544.3z"
-                />
-                <path
-                  fill="#fbbc04"
-                  d="M123.8 330.1c-10.2-30.5-10.2-63.4 0-93.9V167.8H35.9c-38.3 76.3-38.3 166.4 0 242.7l87.9-68.4z"
-                />
-                <path
-                  fill="#ea4335"
-                  d="M272 107.7c39 0 74 13.4 101.5 39.5l76-76C403.6 24.7 343.6 0 272 0 169.4 0 79.8 63.6 35.9 167.8l87.9 68.4C144.7 154.2 203.1 107.7 272 107.7z"
-                />
-              </svg>
-              Entrar com o Google
-            </Button> */}
-            <div className="w-full mb-4 bg-white text-gray-700 font-medium border border-gray-300 hover:bg-gray-50 transition-colors flex items-center justify-center gap-3 shadow-sm">
-              {" "}
-              <p>
-                Não use seu email pessoal. Pode usar seu nome exemplo:
-                JoãoBatista@gmail.com
-              </p>
-            </div>
-            <p>
-              Pois ainda estamos em desenvolvimento para proteger seus dados de
-              acordo com a LGPD.
-            </p>
+            {/* AVISO SUPER VISÍVEL */}
+            <div className="w-full mb-4 p-4 rounded-lg border-2 border-red-400 bg-red-50 shadow-md relative overflow-hidden">
+              <div className="absolute inset-0 bg-red-200 opacity-20 animate-pulse blur-xl"></div>
 
+              <div className="relative flex items-start gap-3">
+                <AlertCircle className="w-6 h-6 text-red-600 animate-bounce" />
+
+                <div>
+                  <p className="text-red-700 font-semibold text-sm">
+                    ⚠ Atenção: Não utilize seu e-mail pessoal real.
+                  </p>
+                  <p className="text-red-600 text-xs mt-1">
+                    O sistema ainda está em desenvolvimento e a proteção dos
+                    dados (LGPD) não está finalizada.
+                  </p>
+                  <p className="text-red-700 font-bold text-sm mt-1">
+                    ➝ Exemplo seguro:{" "}
+                    <span className="underline">JoaoBatista@gmail.com</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* FORMULÁRIO */}
             <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Campo de Nome Completo */}
+              {/* NOME */}
               <div className="space-y-2">
-                <Label
-                  htmlFor="nome_completo"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Nome Completo
-                </Label>
+                <Label htmlFor="nome_completo">Nome Completo</Label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <Input
                     id="nome_completo"
                     type="text"
@@ -223,10 +193,10 @@ export default function CustomRegister() {
                       handleInputChange("nome_completo", e.target.value)
                     }
                     placeholder="João da Silva"
-                    className={`h-12 pl-10 transition-all ${
+                    className={`h-12 pl-10 ${
                       errors.nome_completo
-                        ? "border-red-400 focus:border-red-500 focus:ring-red-400"
-                        : "border-gray-300 focus:border-purple-400 focus:ring-purple-400"
+                        ? "border-red-400 focus:ring-red-400"
+                        : "border-gray-300 focus:ring-purple-400"
                     }`}
                   />
                 </div>
@@ -238,61 +208,45 @@ export default function CustomRegister() {
                 )}
               </div>
 
-              {/* Campo de E-mail */}
+              {/* EMAIL */}
               <div className="space-y-2">
-                <Label
-                  htmlFor="email"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  E-mail
-                </Label>
+                <Label htmlFor="email">E-mail</Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <Input
                     id="email"
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange("email", e.target.value)}
-                    placeholder="seu@email.com"
-                    className={`h-12 pl-10 transition-all ${
+                    placeholder="exemplo@gmail.com"
+                    className={`h-12 pl-10 ${
                       errors.email
-                        ? "border-red-400 focus:border-red-500 focus:ring-red-400"
-                        : "border-gray-300 focus:border-purple-400 focus:ring-purple-400"
+                        ? "border-red-400 focus:ring-red-400"
+                        : "border-gray-300 focus:ring-purple-400"
                     }`}
                   />
                 </div>
-                {errors.email && (
-                  <p className="text-sm text-red-500 flex items-center gap-1">
-                    <AlertCircle className="w-4 h-4" />
-                    {errors.email}
-                  </p>
-                )}
               </div>
 
-              {/* Campo de Senha */}
+              {/* SENHA */}
               <div className="space-y-2">
-                <Label
-                  htmlFor="senha"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Senha
-                </Label>
+                <Label htmlFor="senha">Senha</Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <Input
                     id="senha"
                     type="password"
                     value={formData.senha}
                     onChange={(e) => handleInputChange("senha", e.target.value)}
-                    placeholder="••••••••"
-                    className={`h-12 pl-10 transition-all ${
+                    className={`h-12 pl-10 ${
                       errors.senha
-                        ? "border-red-400 focus:border-red-500 focus:ring-red-400"
-                        : "border-gray-300 focus:border-purple-400 focus:ring-purple-400"
+                        ? "border-red-400 focus:ring-red-400"
+                        : "border-gray-300 focus:ring-purple-400"
                     }`}
                   />
                 </div>
-                {/* Indicador de força da senha */}
+
+                {/* Indicador de força */}
                 {passwordStrength && (
                   <div className="space-y-1">
                     <div className="flex items-center justify-between text-xs">
@@ -313,29 +267,13 @@ export default function CustomRegister() {
                     </div>
                   </div>
                 )}
-                {errors.senha && (
-                  <p className="text-sm text-red-500 flex items-center gap-1">
-                    <AlertCircle className="w-4 h-4" />
-                    {errors.senha}
-                  </p>
-                )}
-                {!errors.senha && (
-                  <p className="text-xs text-gray-500">
-                    Mínimo de 6 caracteres
-                  </p>
-                )}
               </div>
 
-              {/* Campo de Confirmação de Senha */}
+              {/* CONFIRMAR SENHA */}
               <div className="space-y-2">
-                <Label
-                  htmlFor="confirmar_senha"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Confirmar Senha
-                </Label>
+                <Label htmlFor="confirmar_senha">Confirmar Senha</Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <Input
                     id="confirmar_senha"
                     type="password"
@@ -343,51 +281,32 @@ export default function CustomRegister() {
                     onChange={(e) =>
                       handleInputChange("confirmar_senha", e.target.value)
                     }
-                    placeholder="••••••••"
-                    className={`h-12 pl-10 transition-all ${
+                    className={`h-12 pl-10 ${
                       errors.confirmar_senha
-                        ? "border-red-400 focus:border-red-500 focus:ring-red-400"
+                        ? "border-red-400 focus:ring-red-400"
                         : formData.confirmar_senha &&
                           formData.senha === formData.confirmar_senha
-                        ? "border-green-400 focus:border-green-500 focus:ring-green-400"
-                        : "border-gray-300 focus:border-purple-400 focus:ring-purple-400"
+                        ? "border-green-400 focus:ring-green-400"
+                        : "border-gray-300 focus:ring-purple-400"
                     }`}
                   />
+
                   {formData.confirmar_senha &&
-                    formData.senha === formData.confirmar_senha &&
-                    !errors.confirmar_senha && (
-                      <CheckCircle className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-green-500" />
+                    formData.senha === formData.confirmar_senha && (
+                      <CheckCircle className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-500" />
                     )}
                 </div>
-                {errors.confirmar_senha && (
-                  <p className="text-sm text-red-500 flex items-center gap-1">
-                    <AlertCircle className="w-4 h-4" />
-                    {errors.confirmar_senha}
-                  </p>
-                )}
               </div>
 
-              {/* Botão Registrar */}
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-12 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+                className="w-full h-12 bg-gradient-to-r from-pink-500 to-purple-500 hover:shadow-xl text-white font-semibold transition-all"
               >
-                {isLoading ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Criando conta...
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <UserPlus className="w-5 h-5" />
-                    Registrar
-                  </div>
-                )}
+                {isLoading ? "Criando conta..." : "Registrar"}
               </Button>
             </form>
 
-            {/* Divisor */}
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-300"></div>
@@ -397,14 +316,10 @@ export default function CustomRegister() {
               </div>
             </div>
 
-            {/* Link para Login */}
             <div className="text-center">
               <p className="text-gray-600">
                 Já tem conta?{" "}
-                <Link
-                  href="/login"
-                  className="text-purple-600 hover:text-purple-700 font-semibold hover:underline transition-colors"
-                >
+                <Link href="/login" className="text-purple-600 underline">
                   Faça login
                 </Link>
               </p>
@@ -412,12 +327,8 @@ export default function CustomRegister() {
           </CardContent>
         </Card>
 
-        {/* Link para Home */}
         <div className="text-center mt-6">
-          <Link
-            href="/"
-            className="text-gray-600 hover:text-gray-800 text-sm hover:underline transition-colors"
-          >
+          <Link href="/" className="text-gray-600 underline">
             ← Voltar para página inicial
           </Link>
         </div>
