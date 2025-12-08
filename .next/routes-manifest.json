@@ -8,6 +8,7 @@
       "source": "/:path+/",
       "destination": "/:path+",
       "internal": true,
+      "priority": true,
       "statusCode": 308,
       "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
     }
@@ -68,6 +69,12 @@
       "namedRegex": "^/(?:/)?$"
     },
     {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
       "page": "/_not-found",
       "regex": "^/_not\\-found(?:/)?$",
       "routeKeys": {},
@@ -84,6 +91,54 @@
       "regex": "^/admin/pedidos(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/admin/pedidos(?:/)?$"
+    },
+    {
+      "page": "/api/auth/login",
+      "regex": "^/api/auth/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/login(?:/)?$"
+    },
+    {
+      "page": "/api/auth/logout",
+      "regex": "^/api/auth/logout(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/logout(?:/)?$"
+    },
+    {
+      "page": "/api/auth/me",
+      "regex": "^/api/auth/me(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/me(?:/)?$"
+    },
+    {
+      "page": "/api/auth/register",
+      "regex": "^/api/auth/register(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/register(?:/)?$"
+    },
+    {
+      "page": "/api/clientes",
+      "regex": "^/api/clientes(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/clientes(?:/)?$"
+    },
+    {
+      "page": "/api/itemPedido",
+      "regex": "^/api/itemPedido(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/itemPedido(?:/)?$"
+    },
+    {
+      "page": "/api/pedidos",
+      "regex": "^/api/pedidos(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/pedidos(?:/)?$"
+    },
+    {
+      "page": "/api/produtos",
+      "regex": "^/api/produtos(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/produtos(?:/)?$"
     },
     {
       "page": "/checkout",
@@ -127,7 +182,9 @@
     "prefetchSuffix": ".prefetch.rsc",
     "prefetchSegmentHeader": "next-router-segment-prefetch",
     "prefetchSegmentSuffix": ".segment.rsc",
-    "prefetchSegmentDirSuffix": ".segments"
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
   },
   "rewriteHeaders": {
     "pathHeader": "x-nextjs-rewritten-path",
