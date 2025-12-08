@@ -1,5 +1,5 @@
 "use client";
- 
+
 import * as React from "react";
 import Autoplay from "embla-carousel-autoplay";
 import {
@@ -10,7 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
- 
+
 export default function Carrosel() {
   const plugin = React.useRef(
     Autoplay({
@@ -18,7 +18,7 @@ export default function Carrosel() {
       stopOnInteraction: true,
     })
   );
- 
+
   const slides = [
     {
       src: "/bolo3.jpeg",
@@ -36,30 +36,30 @@ export default function Carrosel() {
       description: "Sabores únicos e especiais",
     },
   ];
- 
+
   return (
-    <div className="w-full max-w-7xl mx-auto">
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
       <Carousel
         opts={{ align: "center", loop: true }}
         plugins={[plugin.current]}
-        className="w-[800px] h-[300px] rounded-xl flex items-center justify-center ml-55 overflow-hidden"
+        className="w-full rounded-xl flex items-center justify-center overflow-hidden"
       >
         <CarouselContent>
           {slides.map((slide, index) => (
             <CarouselItem key={index} className="basis-full">
-              <div className="relative w-[800px] flex justify-center items-center h-[10vh] sm:h-[60vh] md:h-[50vh]">
+              <div className="relative w-full flex justify-center items-center h-48 sm:h-64 md:h-80 lg:h-96">
                 <Image
                   src={slide.src}
                   alt={slide.title}
                   fill
-                  className="object-center rounded-xl brightness-110 bg-red-500"
+                  className="object-cover rounded-xl brightness-110"
                 />
                 {/* Texto sobreposto no canto inferior esquerdo */}
-                <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12 text-left">
-                  <h2 className="text-white text-3xl md:text-5xl font-bold drop-shadow-lg">
+                <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 lg:bottom-12 left-4 sm:left-6 md:left-8 lg:left-12 text-left z-10">
+                  <h2 className="text-white text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold drop-shadow-lg">
                     {slide.title}
                   </h2>
-                  <p className="text-gray-200 text-sm md:text-lg mt-2 drop-shadow-md">
+                  <p className="text-gray-200 text-xs sm:text-sm md:text-base lg:text-lg mt-1 sm:mt-2 drop-shadow-md">
                     {slide.description}
                   </p>
                 </div>
@@ -67,7 +67,7 @@ export default function Carrosel() {
             </CarouselItem>
           ))}
         </CarouselContent>
- 
+
         {/* Navegação visível apenas no desktop */}
         <CarouselPrevious className="hidden sm:flex" />
         <CarouselNext className="hidden sm:flex" />

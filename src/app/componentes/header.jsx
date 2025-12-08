@@ -23,39 +23,40 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 w-full z-50 bg-white shadow-xl">
-      <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
 
         {/* DESKTOP */}
-        <nav className="hidden md:flex items-center justify-between w-full bg-[#CDECF9] shadow-xl px-6 py-3 ml-6 rounded-xl">
+        <nav className="hidden md:flex items-center justify-between w-full bg-[#CDECF9] shadow-xl px-4 lg:px-6 py-3 ml-6 rounded-xl">
 
           {/* LOGO */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 lg:gap-3">
             <Image
               src="/logo_amor1.png"
               alt="Logo Doce Encanto"
-              width={60}
-              height={60}
+              width={50}
+              height={50}
+              className="w-12 h-12 lg:w-14 lg:h-14"
             />
             <div className="flex flex-col leading-tight">
-              <span className="font-semibold text-lg text-pink-600 font-[cursive]">
+              <span className="font-semibold text-sm lg:text-lg text-pink-600 font-[cursive]">
                 Doce Encanto
               </span>
-              <span className="text-xs text-gray-500 font-medium">
+              <span className="text-xs text-gray-500 font-medium hidden lg:inline">
                 Confeitaria Artesanal
               </span>
             </div>
           </div>
 
           {/* LINKS */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 lg:gap-6 text-sm lg:text-base">
             <Link href="/" className="flex items-center gap-1 text-gray-700 hover:text-pink-600 transition">
               <Home className="w-4 h-4" />
-              Início
+              <span className="hidden lg:inline">Início</span>
             </Link>
 
             <Link href="/monte-seu-bolo" className="flex items-center gap-1 text-gray-700 hover:text-pink-600 transition">
               <Cake className="w-4 h-4" />
-              Monte seu Bolo
+              <span className="hidden lg:inline">Monte seu Bolo</span>
             </Link>
 
             {/* 🔥 SOMENTE ADMIN — Botão Pedidos */}
@@ -65,30 +66,30 @@ export default function Header() {
                 className="flex items-center gap-1 text-red-600 font-semibold hover:text-red-700 transition"
               >
                 <Cake className="w-4 h-4" />
-                Pedidos
+                <span className="hidden lg:inline">Pedidos</span>
               </Link>
             )}
 
-            <div className="h-6 w-px bg-gray-300 mx-2"></div>
+            <div className="h-6 w-px bg-gray-300 mx-1 lg:mx-2"></div>
 
             {/* ==============================
                 SE ESTÁ LOGADO
             =============================== */}
             {cliente ? (
               <>
-                <span className="text-gray-700 font-medium flex items-center gap-1">
+                <span className="text-gray-700 font-medium flex items-center gap-1 text-xs lg:text-base">
                   <User className="w-4 h-4" />
-                  {cliente.nome.split(" ")[0]}
+                  <span className="hidden sm:inline">{cliente.nome.split(" ")[0]}</span>
                 </span>
 
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={logout}
-                  className="border-red-300 text-red-500 hover:bg-red-50 hover:border-red-400 flex items-center gap-2"
+                  className="border-red-300 text-red-500 hover:bg-red-50 hover:border-red-400 flex items-center gap-1 lg:gap-2 text-xs lg:text-sm"
                 >
-                  <LogOut className="w-4 h-4" />
-                  Sair
+                  <LogOut className="w-3 lg:w-4 h-3 lg:h-4" />
+                  <span className="hidden lg:inline">Sair</span>
                 </Button>
               </>
             ) : (
@@ -97,7 +98,19 @@ export default function Header() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="border-purple-300 text-pink-500 hover:bg-purple-50 hover:border-purple-400 flex items-center gap-2"
+                    className="border-purple-300 text-pink-500 hover:bg-purple-50 hover:border-purple-400 flex items-center gap-1 lg:gap-2 text-xs lg:text-sm"
+                  >
+                    <LogIn className="w-3 lg:w-4 h-3 lg:h-4" />
+                    <span className="hidden lg:inline">Login</span>
+                  </Button>
+                </Link>
+
+                <Link href="/registro">
+                  <Button size="sm" className="bg-pink-500 text-white shadow-md flex items-center gap-1 lg:gap-2 text-xs lg:text-sm">
+                    <UserPlus className="w-3 lg:w-4 h-3 lg:h-4" />
+                    <span className="hidden lg:inline">Cadastro</span>
+                  </Button>
+                </Link>
                   >
                     <LogIn className="w-4 h-4 text-pink-500" />
                     Login
