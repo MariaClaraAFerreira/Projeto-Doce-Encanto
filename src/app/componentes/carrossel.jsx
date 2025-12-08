@@ -38,28 +38,29 @@ export default function Carrosel() {
   ];
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+    <div className="w-full mx-auto max-w-7xl">
       <Carousel
         opts={{ align: "center", loop: true }}
         plugins={[plugin.current]}
-        className="w-full rounded-xl flex items-center justify-center overflow-hidden"
+        className="w-full rounded-xl overflow-hidden"
       >
         <CarouselContent>
           {slides.map((slide, index) => (
             <CarouselItem key={index} className="basis-full">
-              <div className="relative w-full flex justify-center items-center h-48 sm:h-64 md:h-80 lg:h-96">
+              <div className="relative w-full h-[45vh] sm:h-[60vh] md:h-[70vh] rounded-xl">
                 <Image
                   src={slide.src}
                   alt={slide.title}
                   fill
-                  className="object-cover rounded-xl brightness-110"
+                  className="object-cover rounded-xl"
                 />
-                {/* Texto sobreposto no canto inferior esquerdo */}
-                <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 lg:bottom-12 left-4 sm:left-6 md:left-8 lg:left-12 text-left z-10">
-                  <h2 className="text-white text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold drop-shadow-lg">
+
+                {/* Texto sobreposto */}
+                <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12 text-left drop-shadow-lg">
+                  <h2 className="text-white text-3xl md:text-5xl font-bold">
                     {slide.title}
                   </h2>
-                  <p className="text-gray-200 text-xs sm:text-sm md:text-base lg:text-lg mt-1 sm:mt-2 drop-shadow-md">
+                  <p className="text-gray-200 text-sm md:text-lg mt-2">
                     {slide.description}
                   </p>
                 </div>
@@ -68,7 +69,7 @@ export default function Carrosel() {
           ))}
         </CarouselContent>
 
-        {/* Navegação visível apenas no desktop */}
+        {/* Navegação */}
         <CarouselPrevious className="hidden sm:flex" />
         <CarouselNext className="hidden sm:flex" />
       </Carousel>
