@@ -134,7 +134,7 @@ export default function CustomRegister() {
   const passwordStrength = getPasswordStrength();
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-100">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-linear-to-br from-pink-100 via-purple-100 to-indigo-100">
       {/* Elementos decorativos de fundo */}
       <div className="absolute top-20 left-20 w-64 h-64 bg-pink-300 rounded-full opacity-20 blur-3xl animate-pulse"></div>
       <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-300 rounded-full opacity-20 blur-3xl animate-pulse"></div>
@@ -142,10 +142,10 @@ export default function CustomRegister() {
       <div className="w-full max-w-md relative z-10">
         {/* Logo e Título */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-bounce">
+          <div className="w-16 h-16 bg-linear-to-r from-pink-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-bounce">
             <Sparkles className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold bg-linear-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
             Doce Encanto
           </h1>
           <p className="text-gray-600 mt-2">Crie sua conta e comece agora!</p>
@@ -164,7 +164,7 @@ export default function CustomRegister() {
 
           <CardContent>
             {/* Autenticação com o Google */}
-            <Button
+            {/* <Button
               type="button"
               className="w-full mb-4 bg-white text-gray-700 font-medium border border-gray-300 hover:bg-gray-50 transition-colors flex items-center justify-center gap-3 shadow-sm"
             >
@@ -191,7 +191,18 @@ export default function CustomRegister() {
                 />
               </svg>
               Entrar com o Google
-            </Button>
+            </Button> */}
+            <div className="w-full mb-4 bg-white text-gray-700 font-medium border border-gray-300 hover:bg-gray-50 transition-colors flex items-center justify-center gap-3 shadow-sm">
+              {" "}
+              <p>
+                Não use seu email pessoal. Pode usar seu nome exemplo:
+                JoãoBatista@gmail.com
+              </p>
+            </div>
+            <p>
+              Pois ainda estamos em desenvolvimento para proteger seus dados de
+              acordo com a LGPD.
+            </p>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Campo de Nome Completo */}
