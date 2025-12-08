@@ -171,7 +171,8 @@ export default function CustomRegister() {
                     dados (LGPD) não está finalizada.
                   </p>
                   <p className="text-red-700 font-bold text-sm mt-1">
-                    ➝ Exemplo seguro:{" "}
+                    ➝ Exemplo seguro é utilizando seu nome ou um usuario
+                    simples:{" "}
                     <span className="underline">JoaoBatista@gmail.com</span>
                   </p>
                 </div>
@@ -301,7 +302,7 @@ export default function CustomRegister() {
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-12 bg-gradient-to-r from-pink-500 to-purple-500 hover:shadow-xl text-white font-semibold transition-all"
+                className="w-full h-12 bg-linear-to-r from-pink-500 to-purple-500 hover:shadow-xl text-white font-semibold transition-all"
               >
                 {isLoading ? "Criando conta..." : "Registrar"}
               </Button>
