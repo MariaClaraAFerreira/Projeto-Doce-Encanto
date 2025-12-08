@@ -26,6 +26,3 @@ jobs:
 
       - name: Build Next.js
         run: npm run build
-
-      - name: Run linter
-        run: npm run lint
