@@ -6,19 +6,20 @@ import { useCart } from "@/app/context/CartContext";
 
 export default function CardProdutos() {
   const router = useRouter();
-  const { addToCart } = useCart(); // PEGANDO O CONTEXTO
+  const { addToCart } = useCart();
 
   const categorias = [
     { key: "todas", nome: "Todas" },
     { key: "bolos", nome: "Bolos" },
-    { key: "ovos de pascoa", nome: "ovos de pascoa" },
-    { key: "cupcakes", nome: "cupcakes" },
+    { key: "ovos de pascoa", nome: "Ovos de Páscoa" },
+    { key: "cupcakes", nome: "Cupcakes" },
+    { key: "bombom", nome: "Bombons" },
   ];
 
   const produtos = [
     {
       id: 1,
-      nome: "Bolo Red Velved       ",
+      nome: "Bolo Red Velvet",
       preco: 100.0,
       imagem: "bolo1.jpeg",
       categoria: "bolos",
@@ -27,27 +28,21 @@ export default function CardProdutos() {
       id: 2,
       nome: "Bolo de Morango com Nozes",
       preco: 180.0,
-
       imagem: "bolo2.jpeg",
-
       categoria: "bolos",
     },
     {
       id: 3,
-      nome: "Bolo doce de Leite",
+      nome: "Bolo Doce de Leite",
       preco: 180.0,
-
       imagem: "bolo3.jpeg",
-
       categoria: "bolos",
     },
     {
       id: 4,
-      nome: "Bolo doce de Leite com morango",
+      nome: "Bolo Doce de Leite com Morango",
       preco: 180.0,
-
       imagem: "bolo4.jpeg",
-
       categoria: "bolos",
     },
     {
@@ -57,15 +52,13 @@ export default function CardProdutos() {
       imagem: "bolo5.jpeg",
       categoria: "bolos",
     },
-
     {
       id: 6,
-      nome: "Ovo de Páscoa maracujá",
+      nome: "Ovo de Páscoa Maracujá",
       preco: 35.0,
       imagem: "bolo6.jpeg",
       categoria: "ovos de pascoa",
     },
-
     {
       id: 7,
       nome: "Ovo de Páscoa Ninho",
@@ -73,58 +66,51 @@ export default function CardProdutos() {
       imagem: "bolo7.jpeg",
       categoria: "ovos de pascoa",
     },
-
     {
       id: 9,
-      nome: "Bolo Ganache de maracujá",
+      nome: "Bolo Ganache de Maracujá",
       preco: 200.0,
       imagem: "bolo9.jpeg",
       categoria: "bolos",
     },
-
     {
       id: 10,
-      nome: "Bolo musse de chocolate",
+      nome: "Bolo Mousse de Chocolate",
       preco: 170.0,
       imagem: "bolo10.jpeg",
       categoria: "bolos",
     },
-
     {
       id: 11,
-      nome: "Bolo sem lactose",
+      nome: "Bolo Sem Lactose",
       preco: 250.0,
       imagem: "bolo11.jpeg",
       categoria: "bolos",
     },
-
     {
       id: 12,
-      nome: "Bolo de Ninho",
+      nome: "Bolo de Ninho Especial",
       preco: 200.0,
       imagem: "bolo12.jpeg",
       categoria: "bolos",
     },
-
     {
       id: 13,
-      nome: "Bolo de doce de Leite com Geleia de Morango",
+      nome: "Bolo Doce de Leite com Geleia de Morango",
       preco: 150.0,
       imagem: "bolo13.jpeg",
       categoria: "bolos",
     },
-
     {
       id: 14,
-      nome: "Cupcake ",
+      nome: "Cupcake Tradicional",
       preco: 12.5,
       imagem: "cupcake1.jpeg",
       categoria: "cupcakes",
     },
-
     {
       id: 15,
-      nome: "Bombom",
+      nome: "Bombom Gourmet",
       preco: 3.5,
       imagem: "bombom1.jpeg",
       categoria: "bombom",
@@ -144,7 +130,7 @@ export default function CardProdutos() {
         🍰 Nossos Produtos
       </h1>
 
-      {/* Categorias */}
+      {/* CATEGORIAS */}
       <div className="flex overflow-x-auto gap-2 sm:gap-3 mb-8 pb-2 justify-center px-2 sm:px-0">
         {categorias.map((cat) => (
           <button
@@ -161,7 +147,7 @@ export default function CardProdutos() {
         ))}
       </div>
 
-      {/* Cards */}
+      {/* CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 max-w-7xl mx-auto">
         {produtosFiltrados.map((produto) => (
           <div
@@ -188,7 +174,6 @@ export default function CardProdutos() {
                 R$ {produto.preco.toFixed(2)}
               </p>
 
-              {/* ADICIONANDO AO CARRINHO PELO CONTEXTO */}
               <button
                 onClick={() =>
                   addToCart({

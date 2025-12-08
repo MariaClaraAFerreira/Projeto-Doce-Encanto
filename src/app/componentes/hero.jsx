@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { Heart,Award,User } from "lucide-react";
-
+import { Heart, Award, User } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -66,9 +65,7 @@ export default function Hero() {
             </nav>
 
             {/* Mobile Menu Icon */}
-            <div className="md:hidden">
-              {/* Adicionar ícone de menu aqui se necessário */}
-            </div>
+            <div className="md:hidden"></div>
           </div>
         </div>
       </header>
@@ -89,69 +86,75 @@ export default function Hero() {
               Bem-vindos ao Doce Encanto
             </h1>
             <p className="text-base sm:text-lg md:text-xl mb-4 sm:mb-6 drop-shadow-md leading-relaxed">
-              Deliciosos doces artesanais feitos com amor e ingredientes especiais
+              Deliciosos doces artesanais feitos com amor e ingredientes
+              especiais
             </p>
             <button className="bg-white text-pink-600 hover:bg-pink-50 shadow-xl text-base sm:text-lg px-6 sm:px-8 py-2 sm:py-3 rounded-3xl transition-all hover:scale-105">
               Ver Produtos
             </button>
           </div>
         </section>
-        
+
         {/* Sobre Nós */}
         <section className="py-12 sm:py-20 bg-gradient-to-b from-[#CDECF9] to-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-12 sm:mb-16">
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4 sm:mb-6">Sobre Nós</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4 sm:mb-6">
+                Sobre Nós
+              </h2>
               <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
-                Há mais de 10 anos criando momentos doces e inesquecíveis. 
-                Nossa paixão pela confeitaria nos motiva a buscar sempre a excelência em cada receita.
+                Há mais de 10 anos criando momentos doces e inesquecíveis. Nossa
+                paixão pela confeitaria nos motiva a buscar sempre a excelência
+                em cada receita.
               </p>
             </div>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8"
-          <div className="text-center p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Heart className="w-8 h-8 text-pink-500" />
+
+            {/* ERR0 corrigido — faltava '>' no grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+              <div className="text-center p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Heart className="w-8 h-8 text-pink-500" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                  Nossa Missão
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Levar alegria e sabor para cada ocasião especial, criando
+                  doces únicos que conectam pessoas e criam memórias afetivas
+                  duradouras.
+                </p>
+              </div>
+
+              <div className="text-center p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Award className="w-8 h-8 text-blue-500" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                  Nossos Valores
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Qualidade excepcional, ingredientes selecionados e muito
+                  carinho em cada receita. Acreditamos que cada doce conta uma
+                  história especial.
+                </p>
+              </div>
+
+              <div className="text-center p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <User className="w-8 h-8 text-purple-500" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                  Nossa Equipe
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Uma família apaixonada pela arte da confeitaria, sempre
+                  buscando inovar e surpreender nossos clientes com sabores
+                  únicos e apresentações encantadoras.
+                </p>
+              </div>
             </div>
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">Nossa Missão</h3>
-            <p className="text-gray-600 leading-relaxed">
-              Levar alegria e sabor para cada ocasião especial, criando doces únicos 
-              que conectam pessoas e criam memórias afetivas duradouras.
-            </p>
           </div>
-          
-          <div className="text-center p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Award className="w-8 h-8 text-blue-500" />
-            </div>
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">Nossos Valores</h3>
-            <p className="text-gray-600 leading-relaxed">
-              Qualidade excepcional, ingredientes selecionados e muito carinho em cada 
-              receita. Acreditamos que cada doce conta uma história especial.
-            </p>
-          </div>
-          
-          <div className="text-center p-8 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <User className="w-8 h-8 text-purple-500" />
-            </div>
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">Nossa Equipe</h3>
-            <p className="text-gray-600 leading-relaxed">
-              Uma família apaixonada pela arte da confeitaria, sempre buscando inovar 
-              e surpreender nossos clientes com sabores únicos e apresentações encantadoras.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    {/*CARROSEL*/}
-
-    
-
-
-
-
+        </section>
       </main>
 
       {/* FOOTER */}
