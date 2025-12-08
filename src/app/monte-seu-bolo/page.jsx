@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
@@ -13,7 +12,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { Cake, Calculator, Heart, DollarSign } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
@@ -22,39 +20,45 @@ import Header from "../componentes/header";
 export default function MonteSeuBolo() {
   const router = useRouter();
 
-  const [sabores, setSabores] = useState([]);
-  const [recheios, setRecheios] = useState([]);
-  const [coberturas, setCoberturas] = useState([]);
+  // listas estáticas
+  const saboresEst = [
+    { id: 1, nome: "Baunilha", preco: 20 },
+    { id: 2, nome: "Chocolate", preco: 22 },
+    { id: 3, nome: "Red Velvet", preco: 25 },
+  ];
+
+  const recheiosEst = [
+    { id: 1, nome: "Doce de leite", preco: 10 },
+    { id: 2, nome: "Doce de leite suave com geleia de morango", preco: 12 },
+    { id: 3, nome: "Ninho com uva", preco: 12 },
+    { id: 4, nome: "Chantininho", preco: 11 },
+    { id: 5, nome: "Ninho com banana caramelizada", preco: 13 },
+    { id: 6, nome: "Brigadeiro de cream cheese", preco: 14 },
+    { id: 7, nome: "Brigadeiro", preco: 10 },
+    { id: 8, nome: "Prestígio", preco: 13 },
+    { id: 9, nome: "Ganache de maracujá", preco: 15 },
+  ];
+
+  const coberturasEst = [
+    { id: 1, nome: "Chantilly", preco: 5 },
+    { id: 2, nome: "Chantininho", preco: 6 },
+    { id: 3, nome: "Glacê", preco: 5 },
+    { id: 4, nome: "Ganache de chocolate", preco: 8 },
+  ];
 
   const [formData, setFormData] = useState({
     sabor: "",
     recheio: "",
     cobertura: "",
     intolerante_lactose: false,
+    decoracao: "",
   });
 
   const [precoFinal, setPrecoFinal] = useState(0);
 
-  useEffect(() => {
-    loadProdutos();
-  }, []);
-
-  const loadProdutos = async () => {
-    try {
-      const res = await fetch("/api/produtos");
-      const data = await res.json();
-
-      setSabores(data.filter((p) => p.categoria === "sabor"));
-      setRecheios(data.filter((p) => p.categoria === "recheio"));
-      setCoberturas(data.filter((p) => p.categoria === "cobertura"));
-    } catch (error) {
-      console.error("Erro ao carregar produtos:", error);
-    }
-  };
-
   const handleInput = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-    setPrecoFinal(0); // zera sempre que muda algo
+    setPrecoFinal(0);
   };
 
   const calcularPreco = () => {
@@ -63,17 +67,43 @@ export default function MonteSeuBolo() {
       return;
     }
 
-    const s = sabores.find((p) => p.id === formData.sabor);
-    const r = recheios.find((p) => p.id === formData.recheio);
-    const c = coberturas.find((p) => p.id === formData.cobertura);
+    const s = saboresEst.find((p) => p.id === Number(formData.sabor));
+    const r = recheiosEst.find((p) => p.id === Number(formData.recheio));
+    const c = coberturasEst.find((p) => p.id === Number(formData.cobertura));
+
+    if (!s || !r || !c) {
+      alert("Erro ao encontrar os produtos selecionados.");
+      return;
+    }
 
     let total = s.preco + r.preco + c.preco;
 
-    if (formData.intolerante_lactose) {
-      total *= 1.25;
-    }
+    if (formData.intolerante_lactose) total *= 1.25;
 
     setPrecoFinal(total);
+  };
+
+  const enviarWhatsApp = (pedido) => {
+    const numero = "553584028221"; // número da confeiteira
+    let msg = `📦 *NOVO PEDIDO*\n\n`;
+    msg += `💰 *Total:* R$ ${pedido.valorTotal.toFixed(2)}\n`;
+    msg += `🍰 *Itens:* \n`;
+    msg += `• Sabor: ${
+      saboresEst.find((s) => s.id === Number(formData.sabor))?.nome
+    }\n`;
+    msg += `• Recheio: ${
+      recheiosEst.find((r) => r.id === Number(formData.recheio))?.nome
+    }\n`;
+    msg += `• Cobertura: ${
+      coberturasEst.find((c) => c.id === Number(formData.cobertura))?.nome
+    }\n`;
+    if (formData.decoracao) msg += `• Decoração: ${formData.decoracao}\n`;
+    if (formData.intolerante_lactose) msg += "• Sem lactose\n";
+
+    window.open(
+      `https://wa.me/${numero}?text=${encodeURIComponent(msg)}`,
+      "_blank"
+    );
   };
 
   const finalizarPedido = () => {
@@ -83,18 +113,19 @@ export default function MonteSeuBolo() {
     }
 
     const pedido = {
-      clienteId: 1,
       valorTotal: precoFinal,
       itens: [
-        { produtoId: formData.sabor, quantidade: 1 },
-        { produtoId: formData.recheio, quantidade: 1 },
-        { produtoId: formData.cobertura, quantidade: 1 },
+        { produtoId: Number(formData.sabor), quantidade: 1 },
+        { produtoId: Number(formData.recheio), quantidade: 1 },
+        { produtoId: Number(formData.cobertura), quantidade: 1 },
       ],
       intolerante_lactose: formData.intolerante_lactose,
+      decoracao: formData.decoracao,
     };
 
     localStorage.setItem("pedido-personalizado", JSON.stringify(pedido));
 
+    enviarWhatsApp(pedido);
     router.push("/checkout");
   };
 
@@ -104,10 +135,10 @@ export default function MonteSeuBolo() {
       <div className="min-h-[calc(100vh-200px)] py-8 px-4 sm:px-6 lg:px-8 mt-16">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-linear-to-r from-purple-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
               <Cake className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
+            <h1 className="text-3xl font-bold bg-linear-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
               Monte seu Bolo
             </h1>
             <p className="text-gray-600">
@@ -116,7 +147,7 @@ export default function MonteSeuBolo() {
           </div>
 
           <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
-            <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50 border-b border-purple-100">
+            <CardHeader className="bg-linear-to-r from-purple-50 to-pink-50 border-b border-purple-100">
               <CardTitle className="flex items-center gap-2 text-xl">
                 <Cake className="w-5 h-5 text-purple-600" />
                 Personalize seu Bolo
@@ -135,8 +166,8 @@ export default function MonteSeuBolo() {
                     <SelectValue placeholder="Selecione um sabor" />
                   </SelectTrigger>
                   <SelectContent>
-                    {sabores.map((s) => (
-                      <SelectItem key={s.id} value={s.id}>
+                    {saboresEst.map((s) => (
+                      <SelectItem key={s.id} value={String(s.id)}>
                         {s.nome} — R$ {s.preco.toFixed(2)}
                       </SelectItem>
                     ))}
@@ -155,8 +186,8 @@ export default function MonteSeuBolo() {
                     <SelectValue placeholder="Selecione o recheio" />
                   </SelectTrigger>
                   <SelectContent>
-                    {recheios.map((r) => (
-                      <SelectItem key={r.id} value={r.id}>
+                    {recheiosEst.map((r) => (
+                      <SelectItem key={r.id} value={String(r.id)}>
                         {r.nome} — R$ {r.preco.toFixed(2)}
                       </SelectItem>
                     ))}
@@ -175,13 +206,25 @@ export default function MonteSeuBolo() {
                     <SelectValue placeholder="Selecione a cobertura" />
                   </SelectTrigger>
                   <SelectContent>
-                    {coberturas.map((c) => (
-                      <SelectItem key={c.id} value={c.id}>
+                    {coberturasEst.map((c) => (
+                      <SelectItem key={c.id} value={String(c.id)}>
                         {c.nome} — R$ {c.preco.toFixed(2)}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+
+              {/* DECORAÇÃO */}
+              <div>
+                <Label>Descreva a decoração desejada</Label>
+                <input
+                  type="text"
+                  value={formData.decoracao}
+                  onChange={(e) => handleInput("decoracao", e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                  placeholder="Ex.: Flores de açúcar, chocolate, etc."
+                />
               </div>
 
               {/* SEM LACTOSE */}
@@ -199,10 +242,10 @@ export default function MonteSeuBolo() {
                 />
               </div>
 
-              {/* CALCULAR */}
+              {/* BOTÃO DE CALCULAR */}
               <Button
                 onClick={calcularPreco}
-                className="w-full h-12 bg-gradient-to-r from-purple-500 to-pink-500 text-white"
+                className="w-full h-12 bg-linear-to-r from-purple-500 to-pink-500 text-white"
               >
                 <Calculator className="w-5 h-5 mr-2" />
                 Calcular Preço
@@ -228,7 +271,7 @@ export default function MonteSeuBolo() {
                 </div>
               )}
 
-              {/* FINALIZAR */}
+              {/* BOTÃO FINALIZAR */}
               {precoFinal > 0 && (
                 <Button
                   onClick={finalizarPedido}
