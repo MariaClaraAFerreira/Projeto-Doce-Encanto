@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "postinstall": "npx prisma migrate deploy && npx prisma generate",
-    "prebuild": "npx prisma generate",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
@@ -48,6 +47,6 @@
     "seed": "node prisma/seed.js"
   },
   "engines": {
-    "node": ">=20.9.0"
+    "node": "20"
   }
 }

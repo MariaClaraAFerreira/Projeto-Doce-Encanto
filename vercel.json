@@ -1,4 +1,12 @@
 {
   "buildCommand": "npx prisma generate && next build",
-  "installCommand": "npm install"
+  "installCommand": "npm install",
+  "functions": {
+    "api/**": {
+      "runtime": "nodejs20.x"
+    }
+  },
+  "env": {
+    "NODE_VERSION": "20"
+  }
 }
