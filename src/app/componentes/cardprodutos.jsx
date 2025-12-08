@@ -165,7 +165,7 @@ export default function CardProdutos() {
               />
             </div>
 
-            <div className="p-3 sm:p-4 text-center flex flex-col items-center justify-between flex-grow border border-[#D59050] bg-pink-100 rounded-b-2xl">
+            <div className="p-3 sm:p-4 text-center flex flex-col items-center justify-between  border border-[#D59050] bg-pink-100 rounded-b-2xl">
               <h2 className="text-base sm:text-lg font-bold text-gray-800 line-clamp-2">
                 {produto.nome}
               </h2>

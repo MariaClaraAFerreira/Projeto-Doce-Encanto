@@ -13,7 +13,7 @@ export default function Hero() {
             {/* Logo */}
             <div className="relative group">
               <Link href="/">
-                <div className="relative bg-gradient-to-r from-pink-400 to-rose-500 rounded-2xl p-2 sm:p-4 shadow-2xl transform group-hover:scale-105 transition-all duration-300">
+                <div className="relative from-pink-400 to-rose-500 rounded-2xl p-2 sm:p-4 shadow-2xl transform group-hover:scale-105 transition-all duration-300">
                   <div className="flex items-center gap-2 sm:gap-3">
                     <Image
                       src="/logo_amor1.png"
@@ -52,13 +52,13 @@ export default function Hero() {
               </Link>
               <Link
                 href="/monte-seu-bolo"
-                className="px-4 lg:px-6 py-2 rounded-full bg-gradient-to-r from-blue-300 to-blue-200 text-white hover:from-blue-100 hover:to-blue-200 transition-all duration-200 font-medium shadow-lg text-sm lg:text-base"
+                className="px-4 lg:px-6 py-2 rounded-full  from-blue-300 to-blue-200 text-white hover:from-blue-100 hover:to-blue-200 transition-all duration-200 font-medium shadow-lg text-sm lg:text-base"
               >
                 Monte seu Bolo
               </Link>
               <Link
                 href="/"
-                className="px-4 lg:px-6 py-2 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:from-pink-600 hover:to-rose-600 transition-all duration-200 font-medium shadow-lg text-sm lg:text-base"
+                className="px-4 lg:px-6 py-2 rounded-full  from-pink-500 to-rose-500 text-white hover:from-pink-600 hover:to-rose-600 transition-all duration-200 font-medium shadow-lg text-sm lg:text-base"
               >
                 Contato
               </Link>
@@ -96,7 +96,7 @@ export default function Hero() {
         </section>
 
         {/* Sobre Nós */}
-        <section className="py-12 sm:py-20 bg-gradient-to-b from-[#CDECF9] to-white">
+        <section className="py-12 sm:py-20  from-[#CDECF9] to-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-12 sm:mb-16">
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4 sm:mb-6">
