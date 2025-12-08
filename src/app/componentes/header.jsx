@@ -24,10 +24,8 @@ export default function Header() {
   return (
     <header className="fixed top-0 w-full z-50 bg-white shadow-xl">
       <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
-
         {/* DESKTOP */}
         <nav className="hidden md:flex items-center justify-between w-full bg-[#CDECF9] shadow-xl px-4 lg:px-6 py-3 ml-6 rounded-xl">
-
           {/* LOGO */}
           <div className="flex items-center gap-2 lg:gap-3">
             <Image
@@ -49,17 +47,23 @@ export default function Header() {
 
           {/* LINKS */}
           <div className="flex items-center gap-3 lg:gap-6 text-sm lg:text-base">
-            <Link href="/" className="flex items-center gap-1 text-gray-700 hover:text-pink-600 transition">
+            <Link
+              href="/"
+              className="flex items-center gap-1 text-gray-700 hover:text-pink-600 transition"
+            >
               <Home className="w-4 h-4" />
               <span className="hidden lg:inline">Início</span>
             </Link>
 
-            <Link href="/monte-seu-bolo" className="flex items-center gap-1 text-gray-700 hover:text-pink-600 transition">
+            <Link
+              href="/monte-seu-bolo"
+              className="flex items-center gap-1 text-gray-700 hover:text-pink-600 transition"
+            >
               <Cake className="w-4 h-4" />
               <span className="hidden lg:inline">Monte seu Bolo</span>
             </Link>
 
-            {/* 🔥 SOMENTE ADMIN — Botão Pedidos */}
+            {/* 🔥 ADMIN — Pedidos */}
             {cliente?.nivel === "admin" && (
               <Link
                 href="/admin/pedidos"
@@ -79,7 +83,9 @@ export default function Header() {
               <>
                 <span className="text-gray-700 font-medium flex items-center gap-1 text-xs lg:text-base">
                   <User className="w-4 h-4" />
-                  <span className="hidden sm:inline">{cliente.nome.split(" ")[0]}</span>
+                  <span className="hidden sm:inline">
+                    {cliente.nome.split(" ")[0]}
+                  </span>
                 </span>
 
                 <Button
@@ -106,21 +112,12 @@ export default function Header() {
                 </Link>
 
                 <Link href="/registro">
-                  <Button size="sm" className="bg-pink-500 text-white shadow-md flex items-center gap-1 lg:gap-2 text-xs lg:text-sm">
+                  <Button
+                    size="sm"
+                    className="bg-pink-500 text-white shadow-md flex items-center gap-1 lg:gap-2 text-xs lg:text-sm"
+                  >
                     <UserPlus className="w-3 lg:w-4 h-3 lg:h-4" />
                     <span className="hidden lg:inline">Cadastro</span>
-                  </Button>
-                </Link>
-                  >
-                    <LogIn className="w-4 h-4 text-pink-500" />
-                    Login
-                  </Button>
-                </Link>
-
-                <Link href="/registro">
-                  <Button size="sm" className="bg-pink-500 text-white shadow-md flex items-center gap-2">
-                    <UserPlus className="w-4 h-4" />
-                    Cadastro
                   </Button>
                 </Link>
               </>
@@ -132,7 +129,10 @@ export default function Header() {
 
         {/* MOBILE */}
         <div className="flex items-center gap-2 md:hidden">
-          <button onClick={() => setMenuOpen(!menuOpen)} className="text-pink-600">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="text-pink-600"
+          >
             {menuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
           <CartSheet />
@@ -143,12 +143,21 @@ export default function Header() {
       {menuOpen && (
         <div className="md:hidden bg-white shadow-md border-t border-gray-100">
           <nav className="flex flex-col items-center gap-3 py-4">
-            <Link href="/" className="text-gray-700 hover:text-pink-600">Início</Link>
-            <Link href="/monte-seu-bolo" className="text-gray-700 hover:text-pink-600">Monte seu Bolo</Link>
+            <Link href="/" className="text-gray-700 hover:text-pink-600">
+              Início
+            </Link>
+            <Link
+              href="/monte-seu-bolo"
+              className="text-gray-700 hover:text-pink-600"
+            >
+              Monte seu Bolo
+            </Link>
 
-            {/* 🔥 MOBILE — Botão Pedidos para ADMIN */}
             {cliente?.nivel === "admin" && (
-              <Link href="/admin/pedidos" className="text-red-600 font-semibold">
+              <Link
+                href="/admin/pedidos"
+                className="text-red-600 font-semibold"
+              >
                 Pedidos
               </Link>
             )}
@@ -156,7 +165,6 @@ export default function Header() {
             {cliente ? (
               <>
                 <span className="text-gray-700">{cliente.nome}</span>
-
                 <Button
                   onClick={logout}
                   className="bg-red-500 text-white px-4 py-2 rounded-md"
@@ -166,8 +174,18 @@ export default function Header() {
               </>
             ) : (
               <>
-                <Link href="/login" className="text-gray-700 hover:text-pink-600">Login</Link>
-                <Link href="/registro" className="text-gray-700 hover:text-pink-600">Cadastro</Link>
+                <Link
+                  href="/login"
+                  className="text-gray-700 hover:text-pink-600"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/registro"
+                  className="text-gray-700 hover:text-pink-600"
+                >
+                  Cadastro
+                </Link>
               </>
             )}
           </nav>
