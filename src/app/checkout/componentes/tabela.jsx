@@ -71,7 +71,7 @@ export default function FinalizarPedido() {
   // Enviar WhatsApp automaticamente
   // ----------------------------------------------------------
   const enviarWhatsApp = (pedidoId, payload) => {
-    const numero = "5541999999999"; // alterar
+    const numero = "553584028221"; // alterar
 
     let msg = `📦 *NOVO PEDIDO*\n\n`;
     msg += `🧾 *ID:* ${pedidoId}\n`;
